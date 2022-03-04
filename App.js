@@ -1,55 +1,31 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
 
 //font
 import * as Font from "expo-font";
-import Apploading from "expo-app-loading";
+import AppLoading from "expo-app-loading";
 
-//responsive
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
-//image
-import Smiley from "./assets/images/Smiley.svg";
-
-//button
-import AwesomeButton from "react-native-really-awesome-button";
-
-function Button() {
-  return (
-    <AwesomeButton
-      progress
-      onPress={(next) => {
-        /** Do Something **/
-        next();
-      }}
-    >
-      Text
-    </AwesomeButton>
-  );
-}
+// react navigation
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import FirstScreen from "./screens/FirstScreen";
+import SecondScreen from "./screens/SecondScreen";
+import ThirdScreen from "./screens/ThirdScreen";
+import FourthScreen from "./screens/FourthScreen";
 
 const getFonts = () =>
   Font.loadAsync({
     Hubballi: require("./assets/fonts/Hubballi-Regular.ttf"),
   });
 
-export default function App() {
-  const [fontsloaded, setFontsLoaded] = useState(false);
+// creating the native stack navigator
+const Stack = createNativeStackNavigator();
 
-  if (fontsloaded) {
+export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  if (!fontsLoaded) {
     return (
-      <View style={styles.container}>
-        <Smiley width={150} height={150} />
-        <Text style={styles.text}>Comment trouver le bonheur?</Text>
-        <Button />
-      </View>
-    );
-  } else {
-    return (
-      <Apploading
+      <AppLoading
         startAsync={getFonts}
         onFinish={() => {
           setFontsLoaded(true);
@@ -58,20 +34,43 @@ export default function App() {
       />
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: wp("2%"),
-  },
-  text: {
-    textAlign: "center",
-    fontFamily: "Hubballi",
-    fontSize: hp("4%"),
-    marginBottom: hp("5%"),
-  },
-});
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {/* Sorry for the naming convention, because i do not know how to call them with the shitty french */}
+        <Stack.Screen
+          name="FirstScreen"
+          component={FirstScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="SecondScreen"
+          component={SecondScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="ThirdScreen"
+          component={ThirdScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="FourthScreen"
+          component={FourthScreen}
+          options={({ route }) => ({
+            title: route.params.screenName,
+            headerTitleAlign: "center",
+            headerTitleStyle: {
+              fontFamily: "Hubballi",
+              fontSize: 25,
+              fontWeight: "bold",
+            },
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
