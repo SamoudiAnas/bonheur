@@ -20,7 +20,7 @@ const renderScene = SceneMap({
   third: Events,
 });
 
-const FourthScreen = () => {
+const Category = () => {
   // the index of the screen tab
   const [index, setIndex] = useState(0);
 
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FourthScreen;
+export default Category;

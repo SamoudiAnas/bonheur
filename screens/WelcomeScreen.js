@@ -13,9 +13,9 @@ import {
 import AwesomeButton from "react-native-really-awesome-button";
 
 // Colors
-import { COLORS } from "../constants/Colors";
+import { COLORS } from "../constants/colors";
 
-const FirstScreen = (props) => {
+const WelcomeScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -27,7 +27,7 @@ const FirstScreen = (props) => {
         <AwesomeButton
           style={styles.button}
           stretch={true}
-          onPress={() => props.navigation.navigate("SecondScreen")}
+          onPress={() => props.navigation.navigate("Categories")}
           backgroundColor={COLORS.defaultGreen}
         >
           <Text style={styles.buttonText}>En savoir plus</Text>
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FirstScreen;
+export default WelcomeScreen;

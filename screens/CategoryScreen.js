@@ -12,9 +12,9 @@ import Art from "../assets/images/Art.svg";
 import People from "../assets/images/Group.svg";
 
 // colors
-import { COLORS } from "../constants/Colors";
+import { COLORS } from "../constants/colors";
 
-const SecondScreen = (props) => {
+const CategoryScreen = (props) => {
   return (
     <View style={styles.screen}>
       <View style={styles.textContainer}>
@@ -28,7 +28,7 @@ const SecondScreen = (props) => {
         <TouchableOpacity
           activeOpacity={0.6}
           onPress={() => {
-            props.navigation.navigate("ThirdScreen");
+            props.navigation.navigate("ChoosedCategory", "Art");
           }}
         >
           <View style={styles.card}>
@@ -47,6 +47,16 @@ const SecondScreen = (props) => {
             </View>
 
             <Text style={styles.cardTextTwo}>Travail Associative</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity activeOpacity={0.6} onPress={() => {}}>
+          <View style={styles.cardTwo}>
+            <View style={styles.cardImageTwo}>
+              <People width={150} height={90} />
+            </View>
+
+            <Text style={styles.cardTextTwo}>Lectures</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -117,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SecondScreen;
+export default CategoryScreen;

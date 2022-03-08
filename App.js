@@ -7,11 +7,14 @@ import AppLoading from "expo-app-loading";
 // react navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import FirstScreen from "./screens/FirstScreen";
-import SecondScreen from "./screens/SecondScreen";
-import ThirdScreen from "./screens/ThirdScreen";
-import FourthScreen from "./screens/FourthScreen";
 
+//screens
+import WelcomeScreen from "./screens/WelcomeScreen";
+import CategoryScreen from "./screens/CategoryScreen";
+import ChoosedCategory from "./screens/ChoosedCategory";
+import Category from "./screens/Category";
+
+//font
 const getFonts = () =>
   Font.loadAsync({
     Hubballi: require("./assets/fonts/Hubballi-Regular.ttf"),
@@ -38,28 +41,27 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* Sorry for the naming convention, because i do not know how to call them with the shitty french */}
         <Stack.Screen
-          name="FirstScreen"
-          component={FirstScreen}
+          name="Welcome"
+          component={WelcomeScreen}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
-          name="SecondScreen"
-          component={SecondScreen}
+          name="Categories"
+          component={CategoryScreen}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
-          name="ThirdScreen"
-          component={ThirdScreen}
+          name="ChoosedCategory"
+          component={ChoosedCategory}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
-          name="FourthScreen"
-          component={FourthScreen}
+          name="Category"
+          component={Category}
           options={({ route }) => ({
             title: route.params.screenName,
             headerTitleAlign: "center",

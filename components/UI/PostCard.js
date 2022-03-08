@@ -8,7 +8,7 @@ import {
 } from "react-native-responsive-screen";
 
 // Colors
-import { COLORS } from "../../constants/Colors";
+import { COLORS } from "../../constants/colors";
 
 const PostCard = (props) => {
   return <View style={{ ...styles.card, ...props.style }}></View>;
