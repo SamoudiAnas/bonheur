@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 
+// Importing the Provider of the store
+import { Provider } from "react-redux";
+// Importing createStore and combineReducers and middleWare helper functions
+import { createStore, combineReducers, applyMiddleware } from "redux";
+// Importing the ReduxThunk
+import ReduxThunk from "redux-thunk";
+
+// Importing the postReducer
+import postsReducer from "./store/reducers/post";
+
 //font
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -23,6 +33,13 @@ const getFonts = () =>
 // creating the native stack navigator
 const Stack = createNativeStackNavigator();
 
+// Initializing the rootReducer
+const rootReducer = combineReducers({
+  posts: postsReducer,
+});
+// Initializing the store with the rootReducer
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -39,40 +56,42 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+            options={{ headerShown: false }}
+          />
 
-        <Stack.Screen
-          name="Categories"
-          component={CategoryScreen}
-          options={{ headerShown: false }}
-        />
+          <Stack.Screen
+            name="Categories"
+            component={CategoryScreen}
+            options={{ headerShown: false }}
+          />
 
-        <Stack.Screen
-          name="ChoosedCategory"
-          component={ChoosedCategory}
-          options={{ headerShown: false }}
-        />
+          <Stack.Screen
+            name="ChoosedCategory"
+            component={ChoosedCategory}
+            options={{ headerShown: false }}
+          />
 
-        <Stack.Screen
-          name="Category"
-          component={Category}
-          options={({ route }) => ({
-            title: route.params.screenName,
-            headerTitleAlign: "center",
-            headerTitleStyle: {
-              fontFamily: "Hubballi",
-              fontSize: 25,
-              fontWeight: "bold",
-            },
-          })}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="Category"
+            component={Category}
+            options={({ route }) => ({
+              title: route.params.screenName,
+              headerTitleAlign: "center",
+              headerTitleStyle: {
+                fontFamily: "Hubballi",
+                fontSize: 25,
+                fontWeight: "bold",
+              },
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

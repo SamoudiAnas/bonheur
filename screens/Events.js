@@ -11,7 +11,7 @@ import {
 } from "react-native-responsive-screen";
 
 //constants
-import { COLORS } from "../constants/colors";
+import Colors from "../constants/Colors";
 
 const Events = () => {
   return (
@@ -20,15 +20,13 @@ const Events = () => {
         style={styles.button}
         stretch={true}
         onPress={() => {}}
-        backgroundColor={COLORS.defaultGreen}
+        backgroundColor={Colors.defaultGreen}
       >
         <Text style={styles.buttonText}>Ajouter un événement</Text>
       </AwesomeButton>
 
       <ScrollView>
-        <View style={styles.postsContainer}>
-          <Text>Events</Text>
-        </View>
+        <View style={styles.postsContainer}></View>
       </ScrollView>
     </View>
   );
@@ -46,9 +44,15 @@ const styles = StyleSheet.create({
   },
   button: {
     width: wp("90%"),
+    height: hp("7.8%"),
     justifyContent: "center",
     alignItems: "center",
     marginBottom: hp("2%"),
+  },
+  buttonText: {
+    fontFamily: "Hubballi",
+    fontSize: wp("6.5%"),
+    textAlign: "center",
   },
 });
 

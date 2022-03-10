@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View, StyleSheet, Text, FlatList } from "react-native";
+
+// Importing useSelector for selecting the data
+import { useSelector, useDispatch } from "react-redux";
+
+// Importing PostActions
+import * as postsActions from "../store/actions/post";
 
 //button component
 import AwesomeButton from "react-native-really-awesome-button";
@@ -15,30 +21,67 @@ import AddPostModal from "../components/Modals/AddPostModal/AddPostModal";
 import PostCard from "../components/UI/PostCard";
 
 //constants
-import { COLORS } from "../constants/colors";
+import Colors from "../constants/Colors";
 
 const Posts = () => {
+  // Modal state
   const [modalVisible, setModalVisible] = useState(false);
+
+  // states...
+  const [loading, setLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState(null);
+
+  // setting the posts
+  const posts = useSelector((state) => state.posts.posts);
+  // Initializing the dispatch function
+  const dispatch = useDispatch();
+
+  // Load posts handler
+  const loadPostsHandler = useCallback(async () => {
+    setError(null);
+    setIsRefreshing(true);
+    try {
+      dispatch(postsActions.fetchPosts());
+    } catch (error) {
+      setError(error);
+    }
+    setIsRefreshing(false);
+  }, [dispatch]);
+
+  useEffect(() => {
+    setLoading(true);
+    loadPostsHandler().then(() => setLoading(false));
+  }, [loadPostsHandler]);
+
   return (
     <View style={styles.screen}>
       <AwesomeButton
         style={styles.button}
         stretch={true}
         onPress={() => setModalVisible(true)}
-        backgroundColor={COLORS.defaultGreen}
+        backgroundColor={Colors.defaultGreen}
       >
         <Text style={styles.buttonText}>Ajouter un poste</Text>
       </AwesomeButton>
 
-      <ScrollView>
-        <View style={styles.postsContainer}>
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
+      {!loading && posts.length > 0 ? (
+        <FlatList
+          contentContainerStyle={styles.postsContainer}
+          numColumns={2}
+          data={posts}
+          renderItem={(itemData) => <PostCard post={itemData.item} />}
+          keyExtractor={(item) => item.id}
+          refreshing={isRefreshing}
+          onRefresh={loadPostsHandler}
+        />
+      ) : (
+        <View style={styles.centerContent}>
+          <Text style={styles.contentMessage}>
+            No posts found, start adding some!
+          </Text>
         </View>
-      </ScrollView>
+      )}
 
       <AddPostModal
         modalVisible={modalVisible}
@@ -56,14 +99,29 @@ const styles = StyleSheet.create({
 
   postsContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "space-between",
   },
   button: {
     width: wp("90%"),
+    height: hp("7.8%"),
     justifyContent: "center",
     alignItems: "center",
     marginBottom: hp("2%"),
+  },
+  buttonText: {
+    fontFamily: "Hubballi",
+    fontSize: wp("6.5%"),
+    textAlign: "center",
+  },
+  centerContent: {
+    height: "90%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contentMessage: {
+    fontFamily: "Hubballi",
+    fontSize: wp("5%"),
   },
 });
 

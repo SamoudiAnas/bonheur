@@ -13,7 +13,7 @@ import {
 import AwesomeButton from "react-native-really-awesome-button";
 
 // Colors
-import { COLORS } from "../constants/colors";
+import Colors from "../constants/Colors";
 
 const WelcomeScreen = (props) => {
   return (
@@ -28,7 +28,7 @@ const WelcomeScreen = (props) => {
           style={styles.button}
           stretch={true}
           onPress={() => props.navigation.navigate("Categories")}
-          backgroundColor={COLORS.defaultGreen}
+          backgroundColor={Colors.defaultGreen}
         >
           <Text style={styles.buttonText}>En savoir plus</Text>
         </AwesomeButton>
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: wp("65%"),
+    height: hp("7.8%"),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
     fontFamily: "Hubballi",
     fontSize: wp("7%"),
     color: "#fff",
+    textAlign: "center",
   },
 });
 

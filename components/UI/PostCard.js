@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 
 // responsiveness
 import {
@@ -8,19 +8,58 @@ import {
 } from "react-native-responsive-screen";
 
 // Colors
-import { COLORS } from "../../constants/colors";
+import Colors from "../../constants/Colors";
 
-const PostCard = (props) => {
-  return <View style={{ ...styles.card, ...props.style }}></View>;
+const PostCard = ({ post, style }) => {
+  return (
+    <View style={{ ...styles.card, ...style }}>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: post.imageUri }}
+          style={{ height: 80, width: 80 }}
+        />
+      </View>
+      <View style={styles.details}>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text style={styles.description}>{post.description}</Text>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   card: {
-    height: hp("25%"),
+    height: hp("30%"),
     width: wp("45%"),
-    backgroundColor: COLORS.defaultGreen,
+    backgroundColor: Colors.defaultGreen,
     borderWidth: 2,
     marginBottom: wp("2%"),
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 2,
+  },
+
+  imageContainer: {
+    height: "40%",
+    width: "100%",
+    borderRadius: wp("50%"),
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  details: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontFamily: "Hubballi",
+    fontSize: wp("5.5%"),
+  },
+  description: {
+    fontFamily: "Hubballi",
+    fontSize: wp("4.5%"),
+    textAlign: "center",
   },
 });
 export default PostCard;

@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Modal, StyleSheet, Text, Pressable } from "react-native";
+import { View, Modal, StyleSheet, Text, Alert } from "react-native";
+
+// Importing useDispatch
+import { useDispatch } from "react-redux";
+
+// Importing the postActions
+import * as postActions from "../../../store/actions/post";
 
 //button component
 import AwesomeButton from "react-native-really-awesome-button";
@@ -9,9 +15,21 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { COLORS } from "../../../constants/colors";
+
+// Colors
+import Colors from "../../../constants/Colors";
+import AddPost from "../../Adding/AddPost";
 
 const AddPostModal = ({ modalVisible, setModalVisible }) => {
+  // Initializing the dispatch function
+  const dispatch = useDispatch();
+
+  // Add post handler
+  const onAddPostHandler = (title, description, imageUri) => {
+    dispatch(postActions.addPost(title, description, imageUri));
+    setModalVisible(false);
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -25,20 +43,22 @@ const AddPostModal = ({ modalVisible, setModalVisible }) => {
       <View style={styles.modalView}>
         <Text style={styles.modalText}>Ajouter un Poste</Text>
 
-        <View style={styles.buttons_container}>
+        <AddPost onAddPost={onAddPostHandler} />
+
+        <View style={styles.buttonsContainer}>
           <AwesomeButton
             style={styles.button}
             stretch={true}
             onPress={() => setModalVisible(true)}
-            backgroundColor={COLORS.defaultGreen}
+            backgroundColor={Colors.defaultGreen}
           >
-            <Text style={styles.buttonText}>Ajouter un poste</Text>
+            <Text style={styles.buttonText}>Ajouter</Text>
           </AwesomeButton>
           <AwesomeButton
             style={styles.cancelButton}
             stretch={true}
             onPress={() => setModalVisible(false)}
-            backgroundColor={COLORS.danger}
+            backgroundColor={Colors.danger}
           >
             <Text style={styles.cancelButtonText}>Annuler</Text>
           </AwesomeButton>
@@ -59,19 +79,23 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
   },
-  buttons_container: {
+  buttonsContainer: {
     display: "flex",
     flexDirection: "row",
     position: "absolute",
     bottom: hp("4%"),
   },
-
   button: {
     width: wp("45%"),
+    height: hp("7.8%"),
     marginRight: wp("2%"),
     justifyContent: "center",
     alignItems: "center",
     marginBottom: hp("2%"),
+  },
+  buttonText: {
+    fontFamily: "Hubballi",
+    fontSize: wp("5.5%"),
   },
   cancelButton: {
     width: wp("45%"),
@@ -79,9 +103,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: hp("2%"),
+    height: hp("7.8%"),
   },
   cancelButtonText: {
     color: "white",
+    fontFamily: "Hubballi",
+    fontSize: wp("5.5%"),
   },
   centeredView: {
     flex: 1,
@@ -109,7 +136,8 @@ const styles = StyleSheet.create({
   },
 
   modalText: {
-    fontSize: wp("5%"),
+    fontSize: wp("7%"),
+    fontFamily: "Hubballi",
   },
 });
 

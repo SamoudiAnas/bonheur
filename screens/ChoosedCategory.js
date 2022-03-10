@@ -9,9 +9,14 @@ import {
 import { ART_SCREENS } from "../constants/artScreens";
 
 //colors
-import { COLORS } from "../constants/colors";
+import Colors from "../constants/Colors";
 import { READING_SCREENS } from "../constants/readingScreens";
 import { WORK_SCREENS } from "../constants/workScreens";
+
+// Icons
+import DesignIcon from "../assets/images/design.svg";
+import GuitarIcon from "../assets/images/guitar.svg";
+import PhotographyIcon from "../assets/images/photographie.svg";
 
 const ChoosedCategory = (props) => {
   //this useState gets the routing params to determine
@@ -48,7 +53,9 @@ const ChoosedCategory = (props) => {
             }}
           >
             <View style={styles.option}>
-              <View style={styles.icon} />
+              <View style={styles.icon}>
+                <DesignIcon width={85} height={75} />
+              </View>
               <View style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>{screen.screenName}</Text>
               </View>
@@ -95,10 +102,11 @@ const styles = StyleSheet.create({
   icon: {
     position: "absolute",
     width: "25%",
-    backgroundColor: COLORS.defaultGreen,
+    backgroundColor: Colors.defaultGreen,
     height: hp("10%"),
     top: hp("0%"),
     borderRadius: wp("5%"),
+    overflow: "hidden",
   },
   buttonTextContainer: {
     width: "75%",
