@@ -1,3 +1,4 @@
 export const COLORS = {
-  defaultGreen: "#A4D4B2",
+  defaultGreen: "#60d381",
+  danger: "#dd1a1a",
 };

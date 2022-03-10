@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    width: wp("45%"),
+    width: wp("65%"),
     justifyContent: "center",
     alignItems: "center",
   },
   buttonText: {
     fontFamily: "Hubballi",
-    fontSize: wp("8%"),
+    fontSize: wp("7%"),
     color: "#fff",
   },
 });
