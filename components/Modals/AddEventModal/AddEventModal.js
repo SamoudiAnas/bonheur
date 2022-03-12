@@ -1,5 +1,5 @@
+import { StyleSheet, Text, View, Modal } from "react-native";
 import React from "react";
-import { View, Modal, StyleSheet, Text, Alert } from "react-native";
 
 // responsiveness
 import {
@@ -7,34 +7,33 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-// Add Post
-import AddPost from "../../Adding/AddPost";
+// Add Event component
+import AddEvent from "../../Adding/AddEvent";
 
-const AddPostModal = ({ modalVisible, setModalVisible }) => {
+//TODO: it will be a good idea if you make the modal a separate reusable component...
+
+const AddEventModal = ({ modalVisible, setModalVisible }) => {
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
         setModalVisible(!modalVisible);
       }}
     >
       <View style={styles.modalView}>
-        <Text style={styles.modalText}>Ajouter un Poste</Text>
+        <Text style={styles.modalText}>Ajouter un événement</Text>
 
-        <AddPost setModalVisible={setModalVisible} />
+        <AddEvent setModalVisible={setModalVisible} />
       </View>
     </Modal>
   );
 };
 
+export default AddEventModal;
+
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: hp("2%"),
-  },
   postsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -64,10 +63,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+
   modalText: {
     fontSize: wp("7%"),
     fontFamily: "Hubballi",
   },
 });
-
-export default AddPostModal;

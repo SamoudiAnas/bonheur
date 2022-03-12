@@ -2,17 +2,14 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  Image,
   TouchableOpacity,
+  Image,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 
-// Importing useDispatch
+// importing useDispatch
 import { useDispatch } from "react-redux";
-
-// Importing the postActions
-import * as postActions from "../../store/actions/post";
 
 // Responsiveness
 import {
@@ -20,35 +17,31 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-// Image Picker
-import * as ImagePicker from "expo-image-picker";
-
 //button component
 import AwesomeButton from "react-native-really-awesome-button";
 
 // Colors
 import Colors from "../../constants/Colors";
 
-const AddPost = ({ setModalVisible }) => {
+// Image Picker
+import * as ImagePicker from "expo-image-picker";
+
+// Event actions
+import * as eventActions from "../../store/actions/event";
+
+const AddEvent = ({ setModalVisible }) => {
   // fields state
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
-
-  // Fields handler...
-  const titleChangeHandler = (text) => {
-    setTitle(text);
-  };
-  const descriptionChangeHandler = (text) => {
-    setDescription(text);
-  };
 
   // Image picker handler...
   const imagePickerHandler = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [6, 6],
+      aspect: [9, 9],
       quality: 1,
     });
 
@@ -57,40 +50,33 @@ const AddPost = ({ setModalVisible }) => {
     }
   };
 
+  // Fields handler...
+  const titleChangeHandler = (text) => {
+    setTitle(text);
+  };
+
+  const dateChangeHandler = (text) => {
+    setDate(text);
+  };
+
+  const descriptionChangeHandler = (text) => {
+    setDescription(text);
+  };
+
   // Initializing the dispatch function
   const dispatch = useDispatch();
 
-  // Add post handler
-  const addPostHandler = () => {
-    dispatch(postActions.addPost(title, description, image));
+  // Dispatching addEvent action
+  const addEventHandler = () => {
+    dispatch(eventActions.addEvent(image, title, date, description));
     setModalVisible(false);
   };
 
   return (
     <View style={styles.screen}>
-      {/* The Title */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Titre:</Text>
-        <TextInput
-          style={styles.titleTextInput}
-          onChangeText={titleChangeHandler}
-        />
-      </View>
-
-      {/* The Description */}
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.description}>Description:</Text>
-        <TextInput
-          style={styles.descriptionTextInput}
-          multiline
-          numberOfLines={5}
-          onChangeText={descriptionChangeHandler}
-        />
-      </View>
-
       {/* The Image */}
       <View style={styles.imageContainer}>
-        <Text style={styles.imageTitle}>Choisir une image:</Text>
+        <Text style={styles.imageTitle}>Choisir une image de coverture:</Text>
 
         <TouchableOpacity activeOpacity={0.8} onPress={imagePickerHandler}>
           <View style={styles.image}>
@@ -110,12 +96,41 @@ const AddPost = ({ setModalVisible }) => {
         </TouchableOpacity>
       </View>
 
+      {/* The Title */}
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Titre:</Text>
+        <TextInput
+          style={styles.titleTextInput}
+          onChangeText={titleChangeHandler}
+        />
+      </View>
+
+      {/* The Date */}
+      <View style={styles.dateContainer}>
+        <Text style={styles.date}>Date:</Text>
+        <TextInput
+          style={styles.dateTextInput}
+          onChangeText={dateChangeHandler}
+        />
+      </View>
+
+      {/* The Description */}
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.description}>Description:</Text>
+        <TextInput
+          style={styles.descriptionTextInput}
+          onChangeText={descriptionChangeHandler}
+          multiline
+          numberOfLines={3}
+        />
+      </View>
+
       {/* Buttons Container */}
       <View style={styles.buttonsContainer}>
         <AwesomeButton
           style={styles.button}
           stretch={true}
-          onPress={addPostHandler}
+          onPress={addEventHandler}
           backgroundColor={Colors.defaultGreen}
         >
           <Text style={styles.buttonText}>Ajouter</Text>
@@ -133,7 +148,7 @@ const AddPost = ({ setModalVisible }) => {
   );
 };
 
-export default AddPost;
+export default AddEvent;
 
 const styles = StyleSheet.create({
   screen: {
@@ -141,43 +156,10 @@ const styles = StyleSheet.create({
     height: "80%",
   },
 
-  titleContainer: {
-    height: hp("10%"),
-    width: "100%",
-    marginBottom: hp("2%"),
-  },
-  title: {
-    fontFamily: "Hubballi",
-    fontSize: wp("6%"),
-  },
-  titleTextInput: {
-    borderBottomColor: "#ddd",
-    borderBottomWidth: 1,
-    fontSize: wp("4.3%"),
-    fontFamily: "Hubballi",
-  },
-
-  descriptionContainer: {
-    height: hp("10%"),
-    width: "100%",
-    marginBottom: hp("7%"),
-  },
-  description: {
-    fontFamily: "Hubballi",
-    fontSize: wp("6%"),
-  },
-  descriptionTextInput: {
-    borderBottomColor: "#ddd",
-    borderBottomWidth: 1,
-    fontSize: wp("4.3%"),
-    fontFamily: "Hubballi",
-    textAlignVertical: "top",
-  },
-
   imageContainer: {
     width: wp("90%"),
     height: hp("30%"),
-    marginBottom: hp("3%"),
+    marginTop: 10,
   },
   imageTitle: {
     fontFamily: "Hubballi",
@@ -204,10 +186,58 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  titleContainer: {
+    height: hp("10%"),
+    width: "100%",
+    marginBottom: hp("2%"),
+  },
+  title: {
+    fontFamily: "Hubballi",
+    fontSize: wp("6%"),
+  },
+  titleTextInput: {
+    borderBottomColor: "#ddd",
+    borderBottomWidth: 1,
+    fontSize: wp("4.3%"),
+    fontFamily: "Hubballi",
+  },
+
+  dateContainer: {
+    height: hp("10%"),
+    width: "100%",
+    marginBottom: hp("2%"),
+  },
+  date: {
+    fontFamily: "Hubballi",
+    fontSize: wp("6%"),
+  },
+  dateTextInput: {
+    borderBottomColor: "#ddd",
+    borderBottomWidth: 1,
+    fontSize: wp("4.3%"),
+    fontFamily: "Hubballi",
+  },
+
+  descriptionContainer: {
+    height: hp("10%"),
+    width: "100%",
+    marginBottom: hp("3%"),
+  },
+  description: {
+    fontFamily: "Hubballi",
+    fontSize: wp("6%"),
+  },
+  descriptionTextInput: {
+    borderBottomColor: "#ddd",
+    borderBottomWidth: 1,
+    fontSize: wp("4.3%"),
+    fontFamily: "Hubballi",
+    textAlignVertical: "top",
+  },
+
   buttonsContainer: {
     display: "flex",
     flexDirection: "row",
-    width: "100%",
   },
   button: {
     width: wp("41%"),
@@ -224,6 +254,7 @@ const styles = StyleSheet.create({
     marginLeft: wp("2%"),
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: hp("2%"),
     height: hp("7.8%"),
   },
   cancelButtonText: {

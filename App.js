@@ -9,6 +9,8 @@ import ReduxThunk from "redux-thunk";
 
 // Importing the postReducer
 import postsReducer from "./store/reducers/post";
+// Importing the eventReducer
+import eventReducer from "./store/reducers/event";
 
 //font
 import * as Font from "expo-font";
@@ -36,6 +38,7 @@ const Stack = createNativeStackNavigator();
 // Initializing the rootReducer
 const rootReducer = combineReducers({
   posts: postsReducer,
+  events: eventReducer,
 });
 // Initializing the store with the rootReducer
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
