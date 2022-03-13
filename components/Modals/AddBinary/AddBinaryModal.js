@@ -7,10 +7,10 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-// Add Post
-import AddPost from "../../Adding/AddPost";
+//add binary
+import AddBinary from "../../Adding/AddBinary";
 
-const AddPostModal = ({ category, modalVisible, setModalVisible }) => {
+const AddBinaryModal = ({ category, modalVisible, setModalVisible }) => {
   return (
     <Modal
       animationType="slide"
@@ -22,9 +22,9 @@ const AddPostModal = ({ category, modalVisible, setModalVisible }) => {
       }}
     >
       <View style={styles.modalView}>
-        <Text style={styles.modalText}>Ajouter un Poste</Text>
+        <Text style={styles.modalText}>Ajouter une formation</Text>
 
-        <AddPost setModalVisible={setModalVisible} category={category} />
+        <AddBinary setModalVisible={setModalVisible} category={category} />
       </View>
     </Modal>
   );
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddPostModal;
+export default AddBinaryModal;

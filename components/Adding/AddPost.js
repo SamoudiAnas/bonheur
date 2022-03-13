@@ -8,6 +8,10 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
+//ignore firebase timer warning
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Setting a timer"]);
+
 // Importing useDispatch
 import { useDispatch } from "react-redux";
 
@@ -20,6 +24,9 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
+//uuid
+import uuid from "react-native-uuid";
+
 // Image Picker
 import * as ImagePicker from "expo-image-picker";
 
@@ -29,11 +36,16 @@ import AwesomeButton from "react-native-really-awesome-button";
 // Colors
 import Colors from "../../constants/Colors";
 
-const AddPost = ({ setModalVisible }) => {
+//firebase
+import { storage } from "../../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
+const AddPost = ({ category, setModalVisible }) => {
   // fields state
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [progress, setProgress] = useState(0);
 
   // Fields handler...
   const titleChangeHandler = (text) => {
@@ -53,7 +65,7 @@ const AddPost = ({ setModalVisible }) => {
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      uploadFiles(result);
     }
   };
 
@@ -62,8 +74,38 @@ const AddPost = ({ setModalVisible }) => {
 
   // Add post handler
   const addPostHandler = () => {
-    dispatch(postActions.addPost(title, description, image));
+    dispatch(postActions.addPost(title, description, image, category));
     setModalVisible(false);
+  };
+
+  const uploadFiles = async (image) => {
+    try {
+      const storageRef = ref(storage, `images/${category}/${uuid.v4()}`);
+
+      //convert image to array of bytes
+      const img = await fetch(image.uri);
+      const bytes = await img.blob();
+
+      const uploadTask = uploadBytesResumable(storageRef, bytes);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImage(downloadURL);
+          });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -109,6 +151,8 @@ const AddPost = ({ setModalVisible }) => {
           </View>
         </TouchableOpacity>
       </View>
+
+      {progress > 0 && <Text>{progress} image téléchagé...</Text>}
 
       {/* Buttons Container */}
       <View style={styles.buttonsContainer}>

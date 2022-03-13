@@ -17,6 +17,11 @@ const PostCard = ({ post, style }) => {
         source={{ uri: post.imageUri }}
         style={{ height: "100%", width: "100%" }}
       />
+
+      <View style={styles.details}>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text style={styles.description}>{post.description}</Text>
+      </View>
     </View>
   );
 };

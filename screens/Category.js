@@ -20,15 +20,15 @@ const renderScene = SceneMap({
   third: Events,
 });
 
-const Category = () => {
+const Category = ({ route }) => {
   // the index of the screen tab
   const [index, setIndex] = useState(0);
 
   // the screens of the tab
   const [routes, setRoutes] = useState([
-    { key: "first", title: "Formation" },
-    { key: "second", title: "Posts" },
-    { key: "third", title: "Events" },
+    { key: "first", title: "Formation", category: route.params.screenName },
+    { key: "second", title: "Posts", category: route.params.screenName },
+    { key: "third", title: "Events", category: route.params.screenName },
   ]);
   return (
     <TabView

@@ -1,10 +1,10 @@
-export const ADD_EVENT = "ADD_EVENT";
-export const FETCH_EVENT = "FETCH_EVENT";
+export const ADD_BINARY = "ADD_BINARY";
+export const FETCH_BINARY = "FETCH_BINARY";
 
-// Event Model
-import Event from "../../models/event";
+// Binary Model
+import Binary from "../../models/binary";
 
-export const addEvent = (
+export const addBinary = (
   imageUri,
   title,
   date,
@@ -17,7 +17,7 @@ export const addEvent = (
       const response = await fetch(
         "https://bonheur-9586c-default-rtdb.firebaseio.com/" +
           category +
-          "/events.json",
+          "/binaries.json",
         {
           method: "POST",
           headers: {
@@ -40,8 +40,8 @@ export const addEvent = (
       const data = await response.json();
 
       dispatch({
-        type: ADD_EVENT,
-        eventData: {
+        type: ADD_BINARY,
+        binaryData: {
           id: data.name,
           imageUri,
           title,
@@ -56,13 +56,13 @@ export const addEvent = (
   };
 };
 
-export const fetchEvents = (category) => {
+export const fetchBinaries = (category) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
         "https://bonheur-9586c-default-rtdb.firebaseio.com/" +
           category +
-          "/events.json"
+          "/binaries.json"
       );
       if (!response.ok) {
         throw new Error(
@@ -71,11 +71,11 @@ export const fetchEvents = (category) => {
       }
 
       const data = await response.json();
-      const loadedEvents = [];
+      const loadedBinaries = [];
 
       for (const key in data) {
-        loadedEvents.push(
-          new Event(
+        loadedBinaries.push(
+          new Binary(
             key,
             data[key].imageUri,
             data[key].title,
@@ -86,7 +86,7 @@ export const fetchEvents = (category) => {
         );
       }
 
-      dispatch({ type: FETCH_EVENT, eventData: loadedEvents });
+      dispatch({ type: FETCH_BINARY, binariesData: loadedBinaries });
     } catch (error) {
       throw error;
     }

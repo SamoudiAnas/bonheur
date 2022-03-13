@@ -2,14 +2,21 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  Image,
   TextInput,
+  Image,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 
-// importing useDispatch
+//ignore firebase timer warning
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Setting a timer"]);
+
+// Importing useDispatch
 import { useDispatch } from "react-redux";
+
+// Importing the postActions
+import * as binariesActions from "../../store/actions/binary";
 
 // Responsiveness
 import {
@@ -17,38 +24,29 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
+//uuid
+import uuid from "react-native-uuid";
+
+// Image Picker
+import * as ImagePicker from "expo-image-picker";
+
 //button component
 import AwesomeButton from "react-native-really-awesome-button";
 
 // Colors
 import Colors from "../../constants/Colors";
 
-// Image Picker
-import * as ImagePicker from "expo-image-picker";
+//firebase
+import { storage } from "../../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
-// Event actions
-import * as eventActions from "../../store/actions/event";
-
-const AddEvent = ({ category, setModalVisible }) => {
+const AddBinary = ({ category, setModalVisible }) => {
   // fields state
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
-
-  // Image picker handler...
-  const imagePickerHandler = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [9, 9],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
+  const [progress, setProgress] = useState(0);
 
   // Fields handler...
   const titleChangeHandler = (text) => {
@@ -63,15 +61,59 @@ const AddEvent = ({ category, setModalVisible }) => {
     setDescription(text);
   };
 
+  // Image picker handler...
+  const imagePickerHandler = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [6, 6],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      uploadFiles(result);
+    }
+  };
+
   // Initializing the dispatch function
   const dispatch = useDispatch();
 
-  // Dispatching addEvent action
-  const addEventHandler = () => {
+  // Add post handler
+  const addBinaryHandler = () => {
     dispatch(
-      eventActions.addEvent(image, title, date, description, 0, category)
+      binariesActions.addBinary(image, title, date, description, 0, category)
     );
     setModalVisible(false);
+  };
+
+  const uploadFiles = async (image) => {
+    try {
+      const storageRef = ref(storage, `images/${category}/${uuid.v4()}`);
+
+      //convert image to array of bytes
+      const img = await fetch(image.uri);
+      const bytes = await img.blob();
+
+      const uploadTask = uploadBytesResumable(storageRef, bytes);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImage(downloadURL);
+          });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -132,7 +174,7 @@ const AddEvent = ({ category, setModalVisible }) => {
         <AwesomeButton
           style={styles.button}
           stretch={true}
-          onPress={addEventHandler}
+          onPress={addBinaryHandler}
           backgroundColor={Colors.defaultGreen}
         >
           <Text style={styles.buttonText}>Ajouter</Text>
@@ -150,7 +192,7 @@ const AddEvent = ({ category, setModalVisible }) => {
   );
 };
 
-export default AddEvent;
+export default AddBinary;
 
 const styles = StyleSheet.create({
   screen: {

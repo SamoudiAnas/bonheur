@@ -16,7 +16,7 @@ import {
 // The event modal
 import AddEventModal from "../components/Modals/AddEventModal/AddEventModal";
 // The EventCard Component
-import EventCard from "../components/UI/EventCard";
+import EventCard2 from "../components/UI/EventCard2";
 
 // Event actions
 import * as eventActions from "../store/actions/event";
@@ -43,7 +43,7 @@ const Events = (props) => {
     setError(null);
     setIsRefreshing(true);
     try {
-      dispatch(eventActions.fetchEvents());
+      dispatch(eventActions.fetchEvents(props.route.category));
     } catch (error) {
       setError(error);
     }
@@ -66,24 +66,26 @@ const Events = (props) => {
         <Text style={styles.buttonText}>Ajouter un événement</Text>
       </AwesomeButton>
 
-      {/* Event Item */}
-      {!loading && events.length > 0 ? (
-        <FlatList
-          data={events}
-          refreshing={isRefreshing}
-          onRefresh={loadEventsHandler}
-          keyExtractor={(item) => item.id}
-          renderItem={(itemData) => <EventCard event={itemData.item} />}
-        />
-      ) : (
-        <View style={styles.centerContent}>
-          <Text style={styles.contentMessage}>
-            No events found, start adding some!
-          </Text>
-        </View>
-      )}
-
+      <View style={styles.postsContainer}>
+        {/* Event Item */}
+        {!loading && events.length > 0 ? (
+          <FlatList
+            data={events}
+            refreshing={isRefreshing}
+            onRefresh={loadEventsHandler}
+            keyExtractor={(item) => item.id}
+            renderItem={(itemData) => <EventCard2 event={itemData.item} />}
+          />
+        ) : (
+          <View style={styles.centerContent}>
+            <Text style={styles.contentMessage}>
+              No events found, start adding some!
+            </Text>
+          </View>
+        )}
+      </View>
       <AddEventModal
+        category={props.route.category}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
@@ -98,6 +100,10 @@ const styles = StyleSheet.create({
     padding: hp("2%"),
   },
 
+  postsContainer: {
+    height: hp("70%"),
+  },
+
   button: {
     width: wp("90%"),
     height: hp("7.8%"),
@@ -105,6 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: hp("2%"),
   },
+
   buttonText: {
     fontFamily: "Hubballi",
     fontSize: wp("6.5%"),
@@ -117,6 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
   contentMessage: {
     fontFamily: "Hubballi",
     fontSize: wp("5%"),
