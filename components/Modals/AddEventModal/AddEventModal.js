@@ -12,7 +12,7 @@ import AddEvent from "../../Adding/AddEvent";
 
 //TODO: it will be a good idea if you make the modal a separate reusable component...
 
-const AddEventModal = ({ modalVisible, setModalVisible }) => {
+const AddEventModal = ({ category, modalVisible, setModalVisible }) => {
   return (
     <Modal
       animationType="fade"
@@ -25,7 +25,7 @@ const AddEventModal = ({ modalVisible, setModalVisible }) => {
       <View style={styles.modalView}>
         <Text style={styles.modalText}>Ajouter un événement</Text>
 
-        <AddEvent setModalVisible={setModalVisible} />
+        <AddEvent setModalVisible={setModalVisible} category={category} />
       </View>
     </Modal>
   );

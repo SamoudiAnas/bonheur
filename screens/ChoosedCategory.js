@@ -1,31 +1,28 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 
 // responsiveness
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { ART_SCREENS } from "../constants/artScreens";
 
-//colors
-import Colors from "../constants/Colors";
+//screens constants
+import { ART_SCREENS } from "../constants/artScreens";
 import { READING_SCREENS } from "../constants/readingScreens";
 import { WORK_SCREENS } from "../constants/workScreens";
 
-// Icons
-import DesignIcon from "../assets/images/design.svg";
-import GuitarIcon from "../assets/images/guitar.svg";
-import PhotographyIcon from "../assets/images/photographie.svg";
+//colors
+import Colors from "../constants/Colors";
 
 const ChoosedCategory = (props) => {
   //this useState gets the routing params to determine
   //which screen is entered and display the according categories
   const [screens, setScreens] = useState(() => {
     switch (props.route.params) {
-      case "Work":
+      case "Travail Associative":
         return WORK_SCREENS;
-      case "Reading":
+      case "Lectures":
         return READING_SCREENS;
       default:
         return ART_SCREENS;
@@ -53,8 +50,8 @@ const ChoosedCategory = (props) => {
             }}
           >
             <View style={styles.option}>
-              <View style={styles.icon}>
-                <DesignIcon width={85} height={75} />
+              <View style={styles.iconContainer}>
+                <View style={styles.icon}>{screen.screenIcon}</View>
               </View>
               <View style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>{screen.screenName}</Text>
@@ -92,30 +89,31 @@ const styles = StyleSheet.create({
   option: {
     width: wp("90%"),
     height: hp("10%"),
-    backgroundColor: "#ccc",
+    borderColor: "#ccc",
+    borderWidth: 1,
     paddingVertical: hp("3%"),
     borderRadius: wp("5%"),
     marginVertical: hp("1%"),
     flexDirection: "row",
     position: "relative",
   },
-  icon: {
+  iconContainer: {
     position: "absolute",
     width: "25%",
-    backgroundColor: Colors.defaultGreen,
+    backgroundColor: "transparent",
     height: hp("10%"),
     top: hp("0%"),
     borderRadius: wp("5%"),
     overflow: "hidden",
   },
+  icon: { height: hp("10%"), width: "100%" },
   buttonTextContainer: {
-    width: "75%",
-    alignItems: "center",
+    width: "100%",
   },
   buttonText: {
     fontFamily: "Hubballi",
     fontSize: wp("7%"),
-    paddingLeft: wp("25%"),
+    paddingLeft: wp("30%"),
   },
 });
 export default ChoosedCategory;

@@ -3,11 +3,13 @@ import Post from "../../models/post";
 export const ADD_POST = "ADD_POST";
 export const FETCH_POSTS = "FETCH_POSTS";
 
-export const addPost = (title, description, imageUri) => {
+export const addPost = (title, description, imageUri, category) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        "https://bonheur-9586c-default-rtdb.firebaseio.com/posts.json",
+        "https://bonheur-9586c-default-rtdb.firebaseio.com/" +
+          category +
+          "/posts.json",
         {
           method: "POST",
           headers: {
@@ -37,11 +39,13 @@ export const addPost = (title, description, imageUri) => {
   };
 };
 
-export const fetchPosts = () => {
+export const fetchPosts = (category) => {
   return async (dispatch) => {
     try {
       const response = await fetch(
-        "https://bonheur-9586c-default-rtdb.firebaseio.com/posts.json"
+        "https://bonheur-9586c-default-rtdb.firebaseio.com/" +
+          category +
+          "/posts.json"
       );
       if (!response.ok) {
         throw new Error("Something went wrong while fetching posts...");

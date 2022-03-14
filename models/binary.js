@@ -1,4 +1,4 @@
-class Event {
+class Binary {
   constructor(id, imageUri, title, date, description, participants) {
     this.id = id;
     this.imageUri = imageUri;
@@ -9,4 +9,4 @@ class Event {
   }
 }
 
-export default Event;
+export default Binary;

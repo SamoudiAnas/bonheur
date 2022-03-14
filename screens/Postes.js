@@ -23,7 +23,7 @@ import PostCard from "../components/UI/PostCard";
 //constants
 import Colors from "../constants/Colors";
 
-const Posts = () => {
+const Posts = ({ route }) => {
   // Modal state
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -42,7 +42,7 @@ const Posts = () => {
     setError(null);
     setIsRefreshing(true);
     try {
-      dispatch(postsActions.fetchPosts());
+      dispatch(postsActions.fetchPosts(route?.category));
     } catch (error) {
       setError(error);
     }
@@ -84,6 +84,7 @@ const Posts = () => {
       )}
 
       <AddPostModal
+        category={route?.category}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />

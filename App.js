@@ -12,6 +12,9 @@ import postsReducer from "./store/reducers/post";
 // Importing the eventReducer
 import eventReducer from "./store/reducers/event";
 
+// Importing the eventReducer
+import binaryReducer from "./store/reducers/binary";
+
 //font
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -39,6 +42,7 @@ const Stack = createNativeStackNavigator();
 const rootReducer = combineReducers({
   posts: postsReducer,
   events: eventReducer,
+  binaries: binaryReducer,
 });
 // Initializing the store with the rootReducer
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
