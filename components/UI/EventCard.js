@@ -6,7 +6,6 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import Colors from "../../constants/Colors";
 
 const EventCard = ({ event }) => {
   return (
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 2,
     overflow: "hidden",
+    marginBottom: hp("2%"),
   },
 
   imageBackground: {

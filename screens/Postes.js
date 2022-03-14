@@ -100,7 +100,9 @@ const styles = StyleSheet.create({
   postsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    flexWrap: "wrap",
   },
+
   button: {
     width: wp("90%"),
     height: hp("7.8%"),

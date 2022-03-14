@@ -69,6 +69,9 @@ const Events = (props) => {
       {/* Event Item */}
       {!loading && events.length > 0 ? (
         <FlatList
+          contentContainerStyle={{
+            justifyContent: "center",
+          }}
           data={events}
           refreshing={isRefreshing}
           onRefresh={loadEventsHandler}
