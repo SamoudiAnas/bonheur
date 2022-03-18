@@ -69,6 +69,7 @@ const Posts = ({ route }) => {
         <FlatList
           contentContainerStyle={styles.postsContainer}
           numColumns={2}
+          key={2}
           data={posts}
           renderItem={(itemData) => <PostCard post={itemData.item} />}
           keyExtractor={(item) => item.id}
@@ -101,7 +102,6 @@ const styles = StyleSheet.create({
   postsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    flexWrap: "wrap",
   },
 
   button: {

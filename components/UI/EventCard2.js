@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 //button component
 import AwesomeButton from "react-native-really-awesome-button";
@@ -20,7 +20,13 @@ import {
 //colors
 import Colors from "../../constants/Colors";
 
-const EventCard = ({ event }) => {
+// Participate Modal
+import ParticipateModal from "../Modals/Participate/ParticipateModal";
+
+const EventCard = ({ event, category }) => {
+  // Modal state
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.screen}>
       <Image style={styles.image} source={{ uri: event.imageUri }} />
@@ -34,11 +40,20 @@ const EventCard = ({ event }) => {
         <AwesomeButton
           style={styles.button}
           stretch={true}
-          onPress={() => {}}
+          onPress={() => setModalVisible(true)}
           backgroundColor={Colors.blue}
         >
           <Text style={styles.buttonText}>Participer</Text>
         </AwesomeButton>
+
+        {modalVisible && (
+          <ParticipateModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            id={event.id}
+            category={category}
+          />
+        )}
       </View>
     </View>
   );

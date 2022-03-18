@@ -3,7 +3,7 @@ import EsignIcon from "../assets/images/design.svg";
 
 export const WORK_SCREENS = [
   {
-    screenName: "Projects",
+    screenName: "Projets",
     screenIcon: <EsignIcon width={85} height={75} />,
   },
   {

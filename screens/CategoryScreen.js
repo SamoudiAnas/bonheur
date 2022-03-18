@@ -13,9 +13,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-// images
-import Art from "../assets/images/Art.svg";
-import People from "../assets/images/Group.svg";
+// Categories
 import { CATEGORIES } from "../constants/categories";
 
 // colors

@@ -12,7 +12,7 @@ export const CATEGORIES = [
   },
 
   {
-    categoryName: "Travail Associative",
+    categoryName: "Travail Associatif",
     categoryIcon: (
       <Image
         style={{ height: "100%", width: "100%" }}
@@ -22,7 +22,7 @@ export const CATEGORIES = [
   },
 
   {
-    categoryName: "Lectures",
+    categoryName: "Lecture",
     categoryIcon: (
       <Image
         style={{ height: "100%", width: "100%" }}

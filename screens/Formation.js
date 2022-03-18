@@ -68,9 +68,12 @@ const Formation = ({ route }) => {
       <View style={styles.postsContainer}>
         {!loading && binaries.length > 0 ? (
           <FlatList
-            numColumns={2}
+            numColumns={1}
+            key={1}
             data={binaries}
-            renderItem={(itemData) => <EventCard event={itemData.item} />}
+            renderItem={(itemData) => (
+              <EventCard category={route?.category} event={itemData.item} />
+            )}
             keyExtractor={(item) => item.id}
             refreshing={isRefreshing}
             onRefresh={loadBinariesHandler}

@@ -1,5 +1,6 @@
 export const ADD_BINARY = "ADD_BINARY";
 export const FETCH_BINARY = "FETCH_BINARY";
+export const UPDATE_BINARY = "UPDATE_BINARY";
 
 // Binary Model
 import Binary from "../../models/binary";
@@ -87,6 +88,45 @@ export const fetchBinaries = (category) => {
       }
 
       dispatch({ type: FETCH_BINARY, binariesData: loadedBinaries });
+    } catch (error) {
+      throw error;
+    }
+  };
+};
+
+export const updateBinaries = (id, participants, category) => {
+  return async (dispatch) => {
+    try {
+      const participantsArray = [];
+      participants.forEach((element) => {
+        participantsArray.push({
+          name: element.name,
+          phoneNumber: element.phoneNumber,
+        });
+      });
+
+      const response = await fetch(
+        `https://bonheur-9586c-default-rtdb.firebaseio.com/${category}/binaries/${id}/participants.json`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(participantsArray),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong while updating...");
+      }
+
+      const data = await response.json();
+
+      dispatch({
+        type: UPDATE_BINARY,
+        binaryId: id,
+        binaryData: data,
+      });
     } catch (error) {
       throw error;
     }

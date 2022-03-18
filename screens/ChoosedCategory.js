@@ -12,17 +12,14 @@ import { ART_SCREENS } from "../constants/artScreens";
 import { READING_SCREENS } from "../constants/readingScreens";
 import { WORK_SCREENS } from "../constants/workScreens";
 
-//colors
-import Colors from "../constants/Colors";
-
 const ChoosedCategory = (props) => {
   //this useState gets the routing params to determine
   //which screen is entered and display the according categories
   const [screens, setScreens] = useState(() => {
     switch (props.route.params) {
-      case "Travail Associative":
+      case "Travail Associatif":
         return WORK_SCREENS;
-      case "Lectures":
+      case "Lecture":
         return READING_SCREENS;
       default:
         return ART_SCREENS;
