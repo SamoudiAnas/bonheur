@@ -1,14 +1,4 @@
 import { Image } from "react-native";
-// Icons
-import DesignIcon from "../assets/images/design.svg";
-import GuitarIcon from "../assets/images/guitar.svg";
-import PhotographyIcon from "../assets/images/photographie.svg";
-
-// Responsiveness
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
 
 export const ART_SCREENS = [
   {

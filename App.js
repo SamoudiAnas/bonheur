@@ -11,9 +11,10 @@ import ReduxThunk from "redux-thunk";
 import postsReducer from "./store/reducers/post";
 // Importing the eventReducer
 import eventReducer from "./store/reducers/event";
-
-// Importing the eventReducer
+// Importing the binaryReducer
 import binaryReducer from "./store/reducers/binary";
+// Importing the bookReducer
+import bookReducer from "./store/reducers/book";
 
 //font
 import * as Font from "expo-font";
@@ -28,6 +29,8 @@ import WelcomeScreen from "./screens/WelcomeScreen";
 import CategoryScreen from "./screens/CategoryScreen";
 import ChoosedCategory from "./screens/ChoosedCategory";
 import Category from "./screens/Category";
+import BookScreen from "./screens/BookScreen";
+import ResumeScreen from "./screens/ResumeScreen";
 
 //font
 const getFonts = () =>
@@ -43,6 +46,7 @@ const rootReducer = combineReducers({
   posts: postsReducer,
   events: eventReducer,
   binaries: binaryReducer,
+  books: bookReducer,
 });
 // Initializing the store with the rootReducer
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -89,6 +93,36 @@ export default function App() {
             component={Category}
             options={({ route }) => ({
               title: route.params.screenName,
+              headerTitleAlign: "center",
+              headerTitleStyle: {
+                fontFamily: "Hubballi",
+                fontSize: 25,
+                fontWeight: "bold",
+              },
+            })}
+          />
+
+          {/* Livres screen */}
+          <Stack.Screen
+            name="Books"
+            component={BookScreen}
+            options={({ route }) => ({
+              title: "Livres",
+              headerTitleAlign: "center",
+              headerTitleStyle: {
+                fontFamily: "Hubballi",
+                fontSize: 25,
+                fontWeight: "bold",
+              },
+            })}
+          />
+
+          {/* Résumés screen */}
+          <Stack.Screen
+            name="Résumés"
+            component={ResumeScreen}
+            options={({ route }) => ({
+              title: "Résumés",
               headerTitleAlign: "center",
               headerTitleStyle: {
                 fontFamily: "Hubballi",

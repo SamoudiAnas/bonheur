@@ -2,6 +2,7 @@ import Post from "../../models/post";
 
 export const ADD_POST = "ADD_POST";
 export const FETCH_POSTS = "FETCH_POSTS";
+export const DELETE_POST = "DELETE_POST";
 
 export const addPost = (title, description, imageUri, category) => {
   return async (dispatch) => {
@@ -64,6 +65,24 @@ export const fetchPosts = (category) => {
         );
       }
       dispatch({ type: FETCH_POSTS, postsData: loadedPosts });
+    } catch (error) {
+      throw error;
+    }
+  };
+};
+
+// Deleting the post
+export const deletePost = (id, category) => {
+  return async (dispatch) => {
+    try {
+      await fetch(
+        `https://bonheur-9586c-default-rtdb.firebaseio.com/${category}/posts/${id}.json`,
+        { method: "DELETE" }
+      );
+
+      dispatch({
+        type: DELETE_POST,
+      });
     } catch (error) {
       throw error;
     }

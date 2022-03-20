@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 // Tab View
 import { TabView, SceneMap } from "react-native-tab-view";
 import Events from "./Events";
 import Posts from "./Postes";
 import Formation from "./Formation";
-
-// responsiveness
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 
 // the tabs
 const renderScene = SceneMap({
@@ -30,13 +24,17 @@ const Category = ({ route }) => {
     { key: "second", title: "Posts", category: route.params.screenName },
     { key: "third", title: "Events", category: route.params.screenName },
   ]);
+
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: wp("100%") }}
-    />
+    <View style={styles.screen}>
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: "100%" }}
+        style={{ width: "100%" }}
+      />
+    </View>
   );
 };
 

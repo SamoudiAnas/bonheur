@@ -1,13 +1,20 @@
 // Icons
-import DesignIcon from "../assets/images/design.svg";
+import DesignImage from "../assets/images/design.png";
+
+// Image
+import { Image } from "react-native";
 
 export const READING_SCREENS = [
-  {
-    screenName: "Livres",
-    screenIcon: <DesignIcon width={85} height={75} />,
-  },
-  {
-    screenName: "Résumés",
-    screenIcon: <DesignIcon width={85} height={75} />,
-  },
+  // {
+  //   screenName: "Livres",
+  //   screenIcon: (
+  //     <Image source={DesignImage} style={{ height: "100%", width: "100%" }} />
+  //   ),
+  // },
+  // {
+  //   screenName: "Résumés",
+  //   screenIcon: (
+  //     <Image source={DesignImage} style={{ height: "100%", width: "100%" }} />
+  //   ),
+  // },
 ];

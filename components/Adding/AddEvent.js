@@ -8,6 +8,17 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
+// ignore firebase timer warning
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Setting a timer"]);
+
+//uuid
+import uuid from "react-native-uuid";
+
+//firebase
+import { storage } from "../../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 // importing useDispatch
 import { useDispatch } from "react-redux";
 
@@ -35,6 +46,7 @@ const AddEvent = ({ category, setModalVisible }) => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+  const [progress, setProgress] = useState(0);
 
   // Image picker handler...
   const imagePickerHandler = async () => {
@@ -46,7 +58,8 @@ const AddEvent = ({ category, setModalVisible }) => {
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      // setImage(result.uri);
+      uploadFiles(result);
     }
   };
 
@@ -74,6 +87,36 @@ const AddEvent = ({ category, setModalVisible }) => {
     setModalVisible(false);
   };
 
+  const uploadFiles = async (image) => {
+    try {
+      const storageRef = ref(storage, `images/${category}/${uuid.v4()}`);
+
+      //convert image to array of bytes
+      const img = await fetch(image.uri);
+      const bytes = await img.blob();
+
+      const uploadTask = uploadBytesResumable(storageRef, bytes);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImage(downloadURL);
+          });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.screen}>
       {/* The Image */}
@@ -97,6 +140,12 @@ const AddEvent = ({ category, setModalVisible }) => {
           </View>
         </TouchableOpacity>
       </View>
+
+      {progress > 0 && (
+        <Text style={styles.loadingImageText}>
+          {progress}% image téléchagé...
+        </Text>
+      )}
 
       {/* The Title */}
       <View style={styles.titleContainer}>
@@ -123,7 +172,7 @@ const AddEvent = ({ category, setModalVisible }) => {
           style={styles.descriptionTextInput}
           onChangeText={descriptionChangeHandler}
           multiline
-          numberOfLines={3}
+          numberOfLines={2}
         />
       </View>
 
@@ -223,7 +272,7 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     height: hp("10%"),
     width: "100%",
-    marginBottom: hp("3%"),
+    marginBottom: hp("2%"),
   },
   description: {
     fontFamily: "Hubballi",
@@ -263,5 +312,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Hubballi",
     fontSize: wp("5.5%"),
+  },
+
+  loadingImageText: {
+    position: "absolute",
+    top: hp("28.5%"),
   },
 });

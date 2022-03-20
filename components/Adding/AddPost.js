@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-//ignore firebase timer warning
+// ignore firebase timer warning
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -152,7 +152,11 @@ const AddPost = ({ category, setModalVisible }) => {
         </TouchableOpacity>
       </View>
 
-      {progress > 0 && <Text>{progress} image téléchagé...</Text>}
+      {progress > 0 && (
+        <Text style={styles.loadingImageText}>
+          {progress}% image téléchagé...
+        </Text>
+      )}
 
       {/* Buttons Container */}
       <View style={styles.buttonsContainer}>
@@ -274,5 +278,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Hubballi",
     fontSize: wp("5.5%"),
+  },
+
+  loadingImageText: {
+    position: "absolute",
+    bottom: hp("5%"),
   },
 });

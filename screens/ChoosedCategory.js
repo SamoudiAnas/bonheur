@@ -12,6 +12,9 @@ import { ART_SCREENS } from "../constants/artScreens";
 import { READING_SCREENS } from "../constants/readingScreens";
 import { WORK_SCREENS } from "../constants/workScreens";
 
+// Lecture Image
+import DesignImage from "../assets/images/design.png";
+
 const ChoosedCategory = (props) => {
   //this useState gets the routing params to determine
   //which screen is entered and display the according categories
@@ -25,6 +28,12 @@ const ChoosedCategory = (props) => {
         return ART_SCREENS;
     }
   });
+
+  let check;
+
+  if (props.route.params === "Lecture") {
+    check = true;
+  }
 
   return (
     <View style={styles.screen}>
@@ -56,6 +65,51 @@ const ChoosedCategory = (props) => {
             </View>
           </TouchableOpacity>
         ))}
+        {check && (
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => {
+                props.navigation.navigate("Books");
+              }}
+            >
+              <View style={styles.option}>
+                <View style={styles.iconContainer}>
+                  <View style={styles.icon}>
+                    <Image
+                      source={DesignImage}
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </View>
+                </View>
+                <View style={styles.buttonTextContainer}>
+                  <Text style={styles.buttonText}>Livres</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => {
+                props.navigation.navigate("Résumés");
+              }}
+            >
+              <View style={styles.option}>
+                <View style={styles.iconContainer}>
+                  <View style={styles.icon}>
+                    <Image
+                      source={DesignImage}
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </View>
+                </View>
+                <View style={styles.buttonTextContainer}>
+                  <Text style={styles.buttonText}>Résumés</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );

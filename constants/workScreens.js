@@ -1,13 +1,20 @@
 // Icons
-import EsignIcon from "../assets/images/design.svg";
+import EsignIcon from "../assets/images/design.png";
+
+// Image
+import { Image } from "react-native";
 
 export const WORK_SCREENS = [
   {
     screenName: "Projets",
-    screenIcon: <EsignIcon width={85} height={75} />,
+    screenIcon: (
+      <Image style={{ width: "100%", height: "100%" }} source={EsignIcon} />
+    ),
   },
   {
     screenName: "Réunion",
-    screenIcon: <EsignIcon width={85} height={75} />,
+    screenIcon: (
+      <Image style={{ width: "100%", height: "100%" }} source={EsignIcon} />
+    ),
   },
 ];

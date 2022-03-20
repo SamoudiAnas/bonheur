@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
 
-// Importing useSelector for selecting the data
+// useSelector
 import { useSelector, useDispatch } from "react-redux";
-
-// Importing PostActions
-import * as postsActions from "../store/actions/post";
 
 //button component
 import AwesomeButton from "react-native-really-awesome-button";
+
+// Colors
+import Colors from "../../constants/Colors";
 
 // responsiveness
 import {
@@ -16,17 +16,14 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-// Post Modal
-import AddPostModal from "../components/Modals/AddPostModal/AddPostModal";
+// Book Modal
+import BookModal from "../../components/Modals/Book/BookModal";
+import BookCard from "../../components/UI/BookCard";
 
-//post component
-import PostCard from "../components/UI/PostCard";
+import * as bookActions from "../../store/actions/book";
 
-//constants
-import Colors from "../constants/Colors";
-
-const Posts = ({ route }) => {
-  // Modal state
+const Arab = () => {
+  // modal state
   const [modalVisible, setModalVisible] = useState(false);
 
   // states...
@@ -34,27 +31,28 @@ const Posts = ({ route }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(null);
 
-  // setting the posts
-  const posts = useSelector((state) => state.posts.posts);
+  // getting the books
+  const books = useSelector((state) => state.books.books);
+
   // Initializing the dispatch function
   const dispatch = useDispatch();
 
-  // Load posts handler
-  const loadPostsHandler = useCallback(async () => {
+  const loadedBooks = useCallback(async () => {
     setError(null);
     setIsRefreshing(true);
     try {
-      dispatch(postsActions.fetchPosts(route?.category));
+      dispatch(bookActions.fetchBooks("Arab"));
     } catch (error) {
       setError(error);
     }
+
     setIsRefreshing(false);
   }, [dispatch]);
 
   useEffect(() => {
     setLoading(true);
-    loadPostsHandler().then(() => setLoading(false));
-  }, [loadPostsHandler]);
+    loadedBooks().then(() => setLoading(false));
+  }, [loadedBooks]);
 
   return (
     <View style={styles.screen}>
@@ -64,32 +62,26 @@ const Posts = ({ route }) => {
         onPress={() => setModalVisible(true)}
         backgroundColor={Colors.defaultGreen}
       >
-        <Text style={styles.buttonText}>Ajouter un poste</Text>
+        <Text style={styles.buttonText}>اضف تلخيص كتاب</Text>
       </AwesomeButton>
 
-      {!loading && posts.length > 0 ? (
+      {!loading && books.length > 0 ? (
         <FlatList
-          contentContainerStyle={styles.postsContainer}
-          numColumns={2}
-          key={2}
-          data={posts}
-          renderItem={(itemData) => (
-            <PostCard post={itemData.item} category={route?.category} />
-          )}
+          data={books}
           keyExtractor={(item) => item.id}
-          refreshing={isRefreshing}
-          onRefresh={loadPostsHandler}
+          renderItem={(itemData) => <BookCard item={itemData.item} />}
         />
       ) : (
         <View style={styles.centerContent}>
           <Text style={styles.contentMessage}>
-            No posts found, start adding some!
+            No books reviews were found, start adding some!
           </Text>
         </View>
       )}
 
-      <AddPostModal
-        category={route?.category}
+      {/* Book Modal */}
+      <BookModal
+        category="Arab"
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
@@ -97,15 +89,12 @@ const Posts = ({ route }) => {
   );
 };
 
+export default Arab;
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: hp("2%"),
-  },
-
-  postsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   button: {
@@ -114,12 +103,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: hp("2%"),
+    marginTop: hp("1%"),
   },
   buttonText: {
     fontFamily: "Hubballi",
-    fontSize: wp("6.5%"),
+    fontSize: wp("6%"),
     textAlign: "center",
   },
+
   centerContent: {
     height: "90%",
     width: "100%",
@@ -131,5 +122,3 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
   },
 });
-
-export default Posts;

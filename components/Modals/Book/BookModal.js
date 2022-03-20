@@ -1,5 +1,5 @@
+import { StyleSheet, Text, View, Modal, Alert } from "react-native";
 import React from "react";
-import { View, Modal, StyleSheet, Text, Alert } from "react-native";
 
 // responsiveness
 import {
@@ -7,13 +7,13 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-// Add Post
-import AddPost from "../../Adding/AddPost";
+// Add Book Component
+import AddBook from "../../Adding/AddBook";
 
-const AddPostModal = ({ category, modalVisible, setModalVisible }) => {
+const BookModal = ({ category, modalVisible, setModalVisible }) => {
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
@@ -22,20 +22,17 @@ const AddPostModal = ({ category, modalVisible, setModalVisible }) => {
       }}
     >
       <View style={styles.modalView}>
-        <Text style={styles.modalText}>Ajouter un Poste</Text>
+        <Text style={styles.modalText}>Add a resume</Text>
 
-        <AddPost setModalVisible={setModalVisible} category={category} />
+        <AddBook category={category} setModalVisible={setModalVisible} />
       </View>
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: hp("2%"),
-  },
+export default BookModal;
 
+const styles = StyleSheet.create({
   modalView: {
     width: wp("100%"),
     height: hp("89.25%"),
@@ -59,5 +56,3 @@ const styles = StyleSheet.create({
     fontFamily: "Hubballi",
   },
 });
-
-export default AddPostModal;

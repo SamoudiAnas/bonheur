@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 // responsiveness
 import {
@@ -10,14 +10,30 @@ import {
 // Colors
 import Colors from "../../constants/Colors";
 
-const PostCard = ({ post, style }) => {
+// useDispatch
+import { useDispatch } from "react-redux";
+
+// postActions
+import * as postActions from "../../store/actions/post";
+
+const PostCard = ({ post, style, category }) => {
+  // Initializing the dispatch function
+  const dispatch = useDispatch();
+
+  // Delete Post Handler
+  const deletePostHandler = () => {
+    dispatch(postActions.deletePost(post.id, category));
+  };
+
   return (
-    <View style={{ ...styles.card, ...style }}>
-      <Image
-        source={{ uri: post.imageUri }}
-        style={{ height: "100%", width: "100%" }}
-      />
-    </View>
+    <TouchableOpacity activeOpacity={0.8} onPress={deletePostHandler}>
+      <View style={{ ...styles.card, ...style }}>
+        <Image
+          source={{ uri: post.imageUri }}
+          style={{ height: "100%", width: "100%" }}
+        />
+      </View>
+    </TouchableOpacity>
   );
 };
 
