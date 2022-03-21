@@ -32,7 +32,7 @@ const Arab = () => {
   const [error, setError] = useState(null);
 
   // getting the books
-  const books = useSelector((state) => state.books.books);
+  const books = useSelector((state) => state.books.arab);
 
   // Initializing the dispatch function
   const dispatch = useDispatch();
@@ -70,6 +70,8 @@ const Arab = () => {
           data={books}
           keyExtractor={(item) => item.id}
           renderItem={(itemData) => <BookCard item={itemData.item} />}
+          refreshing={isRefreshing}
+          onRefresh={loadedBooks}
         />
       ) : (
         <View style={styles.centerContent}>

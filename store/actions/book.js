@@ -29,6 +29,7 @@ export const addBook = (title, description, imageUrl, category) => {
 
       dispatch({
         type: ADD_BOOK,
+        category,
         bookData: { id: data.name, title, description, imageUrl },
       });
     } catch (error) {
@@ -39,32 +40,102 @@ export const addBook = (title, description, imageUrl, category) => {
 
 export const fetchBooks = (category) => {
   return async (dispatch) => {
-    try {
-      const response = await fetch(
-        `https://bonheur-9586c-default-rtdb.firebaseio.com/Resume/${category}.json`
-      );
-
-      if (!response.ok) {
-        throw new Error("Something went wrong while fetching books...");
-      }
-
-      const data = await response.json();
-
-      const loadedBooks = [];
-
-      for (const key in data) {
-        loadedBooks.push(
-          new Book(
-            key,
-            data[key].title,
-            data[key].description,
-            data[key].imageUrl
-          )
+    if (category === "Arab") {
+      try {
+        const response = await fetch(
+          `https://bonheur-9586c-default-rtdb.firebaseio.com/Resume/${category}.json`
         );
+
+        if (!response.ok) {
+          throw new Error("Something went wrong while fetching books...");
+        }
+
+        const data = await response.json();
+
+        const loadedBooks = [];
+
+        for (const key in data) {
+          loadedBooks.push(
+            new Book(
+              key,
+              data[key].title,
+              data[key].description,
+              data[key].imageUrl
+            )
+          );
+        }
+        dispatch({
+          type: FETCH_BOOKS,
+          category,
+          arabFetchedBooks: loadedBooks,
+        });
+      } catch (error) {
+        throw error;
       }
-      dispatch({ type: FETCH_BOOKS, fetchedBooks: loadedBooks });
-    } catch (error) {
-      throw error;
+    } else if (category === "French") {
+      try {
+        const response = await fetch(
+          `https://bonheur-9586c-default-rtdb.firebaseio.com/Resume/${category}.json`
+        );
+
+        if (!response.ok) {
+          throw new Error("Something went wrong while fetching books...");
+        }
+
+        const data = await response.json();
+
+        const loadedBooks = [];
+
+        for (const key in data) {
+          loadedBooks.push(
+            new Book(
+              key,
+              data[key].title,
+              data[key].description,
+              data[key].imageUrl
+            )
+          );
+        }
+        dispatch({
+          type: FETCH_BOOKS,
+          category,
+          frenchFetchedBooks: loadedBooks,
+        });
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      try {
+        const response = await fetch(
+          `https://bonheur-9586c-default-rtdb.firebaseio.com/Resume/${category}.json`
+        );
+
+        if (!response.ok) {
+          throw new Error("Something went wrong while fetching books...");
+        }
+
+        const data = await response.json();
+
+        const loadedBooks = [];
+
+        for (const key in data) {
+          loadedBooks.push(
+            new Book(
+              key,
+              data[key].title,
+              data[key].description,
+              data[key].imageUrl
+            )
+          );
+        }
+        dispatch({
+          type: FETCH_BOOKS,
+          category,
+          englishFetchedBooks: loadedBooks,
+        });
+      } catch (error) {
+        throw error;
+      }
     }
   };
 };

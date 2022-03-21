@@ -33,7 +33,7 @@ const French = () => {
   const [error, setError] = useState(null);
 
   // getting the books
-  const books = useSelector((state) => state.books.books);
+  const books = useSelector((state) => state.books.french);
 
   // Initializing the dispatch function
   const dispatch = useDispatch();
