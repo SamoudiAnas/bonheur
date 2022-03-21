@@ -15,6 +15,8 @@ import eventReducer from "./store/reducers/event";
 import binaryReducer from "./store/reducers/binary";
 // Importing the bookReducer
 import bookReducer from "./store/reducers/book";
+// Importing livreReducer
+import livreReducer from "./store/reducers/livre";
 
 //font
 import * as Font from "expo-font";
@@ -47,11 +49,17 @@ const rootReducer = combineReducers({
   events: eventReducer,
   binaries: binaryReducer,
   books: bookReducer,
+  livres: livreReducer,
 });
 // Initializing the store with the rootReducer
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
+// expo keep awake
+import { useKeepAwake } from "expo-keep-awake";
+
 export default function App() {
+  // Calling useKeepAwake to keep the application awake...
+  useKeepAwake();
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   if (!fontsLoaded) {

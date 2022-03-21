@@ -77,7 +77,7 @@ const French = () => {
       ) : (
         <View style={styles.centerContent}>
           <Text style={styles.contentMessage}>
-            No books reviews were found, start adding some!
+            Il n'y pas de résumés des livres (I hate french :)
           </Text>
         </View>
       )}
@@ -123,5 +123,6 @@ const styles = StyleSheet.create({
   contentMessage: {
     fontFamily: "Hubballi",
     fontSize: wp("5%"),
+    textAlign: "center",
   },
 });

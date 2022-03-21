@@ -74,7 +74,7 @@ const Arab = () => {
       ) : (
         <View style={styles.centerContent}>
           <Text style={styles.contentMessage}>
-            No books reviews were found, start adding some!
+            لم يتم العثور على تلخيص لكتاب
           </Text>
         </View>
       )}
@@ -120,5 +120,6 @@ const styles = StyleSheet.create({
   contentMessage: {
     fontFamily: "Hubballi",
     fontSize: wp("5%"),
+    textAlign: "center",
   },
 });

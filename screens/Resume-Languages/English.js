@@ -123,5 +123,6 @@ const styles = StyleSheet.create({
   contentMessage: {
     fontFamily: "Hubballi",
     fontSize: wp("5%"),
+    textAlign: "center",
   },
 });
